@@ -129,10 +129,26 @@ jobs:
               echo "✅ Environment file already exists"
             fi
             
+            # Set proper permissions for .env file
+            echo "🔐 Setting .env file permissions..."
+            chmod 600 .env
+            chown $USER:$USER .env
+            
             # Export environment variables for docker-compose
             echo "🔑 Loading environment variables..."
+            set +x  # Temporarily disable command echo for security
             export $(grep -v '^#' .env | xargs)
-            echo "✅ Environment variables loaded"
+            set -x  # Re-enable command echo
+            
+            # Verify critical variables are loaded (without showing values)
+            echo "🔍 Verifying environment variables..."
+            if [ -z "$DB_USERNAME" ] || [ -z "$DB_PASSWORD" ]; then
+              echo "❌ ERROR: Database credentials not loaded from .env file"
+              echo "DB_USERNAME is set: $([ -n "$DB_USERNAME" ] && echo "YES" || echo "NO")"
+              echo "DB_PASSWORD is set: $([ -n "$DB_PASSWORD" ] && echo "YES" || echo "NO")"
+              exit 1
+            fi
+            echo "✅ Environment variables loaded successfully"
             
             # Docker deployment
             echo "🛑 Stopping existing containers..."
