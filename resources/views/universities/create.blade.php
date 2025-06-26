@@ -1,12 +1,13 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="max-w-4xl mx-auto mt-8">
-    <h2 class="text-2xl font-bold mb-6 text-center bg-gray-100 py-4 rounded shadow">Add University</h2>
-    <div class="bg-gray-50 shadow rounded" style="margin:25px; padding:15px;">
-        <form method="POST" action="{{ route('universities.store') }}">
-            @csrf
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="p-4 lg:p-6">
+    <div class="max-w-4xl mx-auto">
+        <h2 class="text-xl lg:text-2xl font-bold mb-6 text-center bg-white py-4 rounded shadow">Add University</h2>
+        <div class="bg-white shadow rounded p-4 lg:p-6">
+            <form method="POST" action="{{ route('universities.store') }}">
+                @csrf
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
                 <div>
                     <label class="block text-sm font-medium mb-1">Country</label>
                     <input type="text" name="country" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-200 focus:border-green-400" required>
@@ -68,8 +69,8 @@
                     <input type="text" name="minimum_cgpa" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-200 focus:border-green-400">
                 </div>
             </div>
-            <div class="mt-8 flex justify-end">
-                <button type="submit" class="block py-2 px-4 rounded hover:bg-green-700 bg-green-600 text-white bg-green-800">Add University</button>
+            <div class="mt-6 lg:mt-8 flex justify-center lg:justify-end">
+                <button type="submit" class="w-full lg:w-auto py-3 lg:py-2 px-6 lg:px-4 rounded bg-green-600 hover:bg-green-700 text-white font-medium transition-colors duration-200">Add University</button>
             </div>
         </form>
     </div>

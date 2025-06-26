@@ -4,23 +4,23 @@
     @php
         $stats = \App\Http\Controllers\UniversityController::getDashboardStats();
     @endphp
-    <div class="p-8">
-        <h1 class="text-2xl font-bold mb-8">Welcome, {{ auth()->user()->name }}!</h1>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div class="bg-gray-100 rounded-xl shadow p-6 flex flex-col items-center w-full max-w-xs">
+    <div class="p-4 lg:p-8">
+        <h1 class="text-xl lg:text-2xl font-bold mb-6 lg:mb-8">Welcome, {{ auth()->user()->name }}!</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 max-w-6xl mx-auto">
+            <div class="bg-white rounded-xl shadow p-4 lg:p-6 flex flex-col items-center w-full">
                 <canvas id="uniPie" width="80" height="80"></canvas>
-                <div class="mt-4 text-3xl font-bold">{{ $stats['totalUniversities'] }}</div>
-                <div class="text-gray-600 mt-1">Total Universities</div>
+                <div class="mt-4 text-2xl lg:text-3xl font-bold">{{ $stats['totalUniversities'] }}</div>
+                <div class="text-gray-600 mt-1 text-sm lg:text-base text-center">Total Universities</div>
             </div>
-            <div class="bg-gray-100 rounded-xl shadow p-6 flex flex-col items-center w-full max-w-xs">
+            <div class="bg-white rounded-xl shadow p-4 lg:p-6 flex flex-col items-center w-full">
                 <canvas id="bachelorPie" width="80" height="80"></canvas>
-                <div class="mt-4 text-3xl font-bold">{{ $stats['totalBachelor'] }}</div>
-                <div class="text-gray-600 mt-1">Total Bachelor</div>
+                <div class="mt-4 text-2xl lg:text-3xl font-bold">{{ $stats['totalBachelor'] }}</div>
+                <div class="text-gray-600 mt-1 text-sm lg:text-base text-center">Total Bachelor</div>
             </div>
-            <div class="bg-gray-100 rounded-xl shadow p-6 flex flex-col items-center w-full max-w-xs">
+            <div class="bg-white rounded-xl shadow p-4 lg:p-6 flex flex-col items-center w-full sm:col-span-2 lg:col-span-1">
                 <canvas id="mastersPie" width="80" height="80"></canvas>
-                <div class="mt-4 text-3xl font-bold">{{ $stats['totalMasters'] }}</div>
-                <div class="text-gray-600 mt-1">Total Masters</div>
+                <div class="mt-4 text-2xl lg:text-3xl font-bold">{{ $stats['totalMasters'] }}</div>
+                <div class="text-gray-600 mt-1 text-sm lg:text-base text-center">Total Masters</div>
             </div>
         </div>
     </div>
