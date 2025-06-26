@@ -121,18 +121,37 @@ jobs:
               git pull origin main
             fi
             
-            # Copy production environment file if it doesn't exist
+            # Handle .env file setup (remove directory if exists, create file)
+            echo "⚙️ Setting up environment file..."
+            if [ -d ".env" ]; then
+              echo "🗑️ Removing existing .env directory..."
+              rm -rf .env
+            fi
+            
             if [ ! -f ".env" ]; then
-              echo "⚙️ Setting up environment file..."
+              echo "📄 Creating .env file from template..."
               cp .env.production .env
             else
-              echo "✅ Environment file already exists"
+              echo "✅ Environment file already exists as file"
             fi
             
             # Set proper permissions for .env file
             echo "🔐 Setting .env file permissions..."
+            if [ ! -f ".env" ]; then
+              echo "❌ ERROR: .env is not a regular file!"
+              ls -la .env* || echo "No .env files found"
+              exit 1
+            fi
             chmod 600 .env
             chown $USER:$USER .env
+            
+            # Verify .env file content
+            echo "📋 Verifying .env file content..."
+            if [ ! -s ".env" ]; then
+              echo "❌ ERROR: .env file is empty!"
+              exit 1
+            fi
+            echo "✅ .env file created successfully ($(wc -l < .env) lines)"
             
             # Export environment variables for docker-compose
             echo "🔑 Loading environment variables..."
