@@ -14,6 +14,7 @@ class University extends Model
         'name',
         'city',
         'subjects_name',
+        'semester',
         'bachelor',
         'masters',
         'scholarship',

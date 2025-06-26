@@ -42,6 +42,7 @@
                                 <th class="px-4 py-2 border">Name</th>
                                 <th class="px-4 py-2 border">City</th>
                                 <th class="px-4 py-2 border">Subjects</th>
+                                <th class="px-4 py-2 border">Semester</th>
                                 <th class="px-4 py-2 border">Bachelor</th>
                                 <th class="px-4 py-2 border">Masters</th>
                                 <th class="px-4 py-2 border">Scholarship</th>
@@ -60,6 +61,7 @@
                                     <td class="border px-4 py-2">{{ $university->name }}</td>
                                     <td class="border px-4 py-2">{{ $university->city }}</td>
                                     <td class="border px-4 py-2">{{ $university->subjects_name }}</td>
+                                    <td class="border px-4 py-2">{{ $university->semester }}</td>
                                     <td class="border px-4 py-2">{{ $university->bachelor }}</td>
                                     <td class="border px-4 py-2">{{ $university->masters }}</td>
                                     <td class="border px-4 py-2">{{ $university->scholarship }}</td>

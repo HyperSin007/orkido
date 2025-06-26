@@ -25,6 +25,10 @@
                     <input type="text" name="subjects_name" value="{{ old('subjects_name', $university->subjects_name) }}" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-200 focus:border-green-400" required>
                 </div>
                 <div>
+                    <label class="block text-sm font-medium mb-1">Semester</label>
+                    <input type="text" name="semester" value="{{ old('semester', $university->semester) }}" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-200 focus:border-green-400">
+                </div>
+                <div>
                     <label class="block text-sm font-medium mb-1">Bachelor</label>
                     <select name="bachelor" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-200 focus:border-green-400">
                         <option value="">Select</option>
