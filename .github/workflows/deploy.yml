@@ -121,6 +121,9 @@ jobs:
               cp .env.production .env
             fi
             
+            # Export environment variables for docker-compose
+            export $(grep -v '^#' .env | xargs)
+            
             # Docker deployment
             docker-compose down || true
             docker-compose build --no-cache
