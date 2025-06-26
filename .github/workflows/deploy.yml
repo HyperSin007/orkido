@@ -96,12 +96,37 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           port: ${{ secrets.VPS_PORT }}
           script: |
+            # Create project directory if it doesn't exist
+            if [ ! -d "/www/wwwroot/orkido" ]; then
+              echo "Creating project directory..."
+              sudo mkdir -p /www/wwwroot/orkido
+              sudo chown $USER:$USER /www/wwwroot/orkido
+            fi
+            
+            # Navigate to project directory
             cd /www/wwwroot/orkido
-            git pull origin main
-            docker-compose down
+            
+            # Clone or pull repository
+            if [ ! -d ".git" ]; then
+              echo "Cloning repository..."
+              git clone https://github.com/HyperSin007/orkido.git .
+            else
+              echo "Pulling latest changes..."
+              git pull origin main
+            fi
+            
+            # Copy production environment file if it doesn't exist
+            if [ ! -f ".env" ]; then
+              echo "Setting up environment file..."
+              cp .env.production .env
+            fi
+            
+            # Docker deployment
+            docker-compose down || true
             docker-compose build --no-cache
             docker-compose up -d
             sleep 30
+            docker-compose exec -T app php artisan key:generate --force
             docker-compose exec -T app php artisan migrate --force
             docker-compose exec -T app php artisan config:cache
             docker-compose exec -T app php artisan route:cache
