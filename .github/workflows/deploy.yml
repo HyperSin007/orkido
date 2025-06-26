@@ -169,18 +169,17 @@ jobs:
             fi
             echo "✅ Environment variables loaded successfully"
             
-            # Docker deployment
-            echo "🛑 Stopping existing containers..."
-            docker-compose down || true
-            
-            echo "🐳 Building Docker containers..."
-            docker-compose build --no-cache
-            
-            echo "🚀 Starting containers..."
-            docker-compose up -d
-            
-            echo "⏳ Waiting for database to be ready..."
-            sleep 30
+            # Minimal downtime Docker deployment
+            if docker-compose ps app | grep -q "Up"; then
+              echo "� Performing rolling update (minimal downtime)..."
+              docker-compose build app
+              docker-compose up -d app
+              sleep 15
+            else
+              echo "🚀 Starting fresh deployment..."
+              docker-compose up -d
+              sleep 30
+            fi
             
             echo "🔧 Running Laravel setup..."
             docker-compose exec -T app php artisan key:generate --force
