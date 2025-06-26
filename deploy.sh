@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Orkido Educational Consultancy - Deployment Script
-# Run this script on your VPS to set up the application
+# Orkido Educational Consultancy - Deployment Script for aaPanel VPS
+# Run this script on your VPS to set up the Docker application
 
 set -e
 
-echo "🚀 Starting Orkido deployment..."
+echo "🚀 Starting Orkido Docker deployment with aaPanel..."
 
 # Variables
-PROJECT_DIR="/var/www/orkido"
+PROJECT_DIR="/www/wwwroot/orkido"
 REPO_URL="https://github.com/HyperSin007/orkido.git"
 
 # Create project directory if it doesn't exist
@@ -38,12 +38,15 @@ if [ ! -f ".env" ]; then
     echo "🔑 Don't forget to generate APP_KEY with: docker-compose exec app php artisan key:generate"
 fi
 
+# Stop existing containers
+echo "🛑 Stopping existing containers..."
+docker-compose down || true
+
 # Build and start containers
 echo "🐳 Building Docker containers..."
-docker-compose down || true
 docker-compose build --no-cache
 
-echo "🚀 Starting application..."
+echo "🚀 Starting application containers..."
 docker-compose up -d
 
 # Wait for database to be ready
@@ -58,11 +61,19 @@ docker-compose exec -T app php artisan config:cache
 docker-compose exec -T app php artisan route:cache
 docker-compose exec -T app php artisan view:cache
 
-echo "✅ Deployment completed successfully!"
-echo "🌐 Your application should be available at http://your-domain.com"
+# Set proper permissions
+echo "🔐 Setting permissions..."
+docker-compose exec -T app chown -R www-data:www-data /var/www/html
+docker-compose exec -T app chmod -R 755 /var/www/html
+docker-compose exec -T app chmod -R 775 /var/www/html/storage
+docker-compose exec -T app chmod -R 775 /var/www/html/bootstrap/cache
+
+echo "✅ Docker deployment completed successfully!"
+echo "🌐 Your application is running on: http://localhost:8080"
+echo "🗄️  Database is running on: localhost:3307"
 echo ""
-echo "📝 Next steps:"
-echo "1. Edit .env file with your production settings"
-echo "2. Set up your domain/reverse proxy if needed"
-echo "3. Configure SSL certificate"
-echo "4. Set up automated backups"
+echo "📝 aaPanel Configuration:"
+echo "1. Create a new site in aaPanel"
+echo "2. Set up reverse proxy to http://127.0.0.1:8080"
+echo "3. Configure your domain and SSL in aaPanel"
+echo "4. Database connection: localhost:3307"
