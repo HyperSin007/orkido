@@ -12,7 +12,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/beta' || github.event_name == 'pull_request'
+    if: github.ref == 'refs/heads/beta' || github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
     
     services:
       mysql:
