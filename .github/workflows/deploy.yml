@@ -96,41 +96,66 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           port: ${{ secrets.VPS_PORT }}
           script: |
+            set -e  # Exit on any error
+            set -x  # Print commands as they execute
+            
+            echo "🚀 Starting deployment..."
+            
             # Create project directory if it doesn't exist
             if [ ! -d "/www/wwwroot/orkido" ]; then
-              echo "Creating project directory..."
+              echo "📁 Creating project directory..."
               sudo mkdir -p /www/wwwroot/orkido
               sudo chown $USER:$USER /www/wwwroot/orkido
             fi
             
             # Navigate to project directory
+            echo "📂 Navigating to project directory..."
             cd /www/wwwroot/orkido
             
             # Clone or pull repository
             if [ ! -d ".git" ]; then
-              echo "Cloning repository..."
+              echo "📥 Cloning repository..."
               git clone https://github.com/HyperSin007/orkido.git .
             else
-              echo "Pulling latest changes..."
+              echo "🔄 Pulling latest changes..."
               git pull origin main
             fi
             
             # Copy production environment file if it doesn't exist
             if [ ! -f ".env" ]; then
-              echo "Setting up environment file..."
+              echo "⚙️ Setting up environment file..."
               cp .env.production .env
+            else
+              echo "✅ Environment file already exists"
             fi
             
             # Export environment variables for docker-compose
+            echo "🔑 Loading environment variables..."
             export $(grep -v '^#' .env | xargs)
+            echo "✅ Environment variables loaded"
             
             # Docker deployment
+            echo "🛑 Stopping existing containers..."
             docker-compose down || true
+            
+            echo "🐳 Building Docker containers..."
             docker-compose build --no-cache
+            
+            echo "🚀 Starting containers..."
             docker-compose up -d
+            
+            echo "⏳ Waiting for database to be ready..."
             sleep 30
+            
+            echo "🔧 Running Laravel setup..."
             docker-compose exec -T app php artisan key:generate --force
             docker-compose exec -T app php artisan migrate --force
             docker-compose exec -T app php artisan config:cache
             docker-compose exec -T app php artisan route:cache
             docker-compose exec -T app php artisan view:cache
+            
+            echo "🔍 Checking container status..."
+            docker-compose ps
+            
+            echo "✅ Deployment completed successfully!"
+            echo "🌐 Application should be available at: http://$(hostname -I | awk '{print $1}'):8080"
