@@ -17,10 +17,31 @@
         @csrf
         @method('patch')
 
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div>
+                <x-input-label for="first_name" :value="__('First Name')" />
+                <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->first_name)" required autofocus autocomplete="given-name" />
+                <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
+            </div>
+
+            <div>
+                <x-input-label for="last_name" :value="__('Last Name')" />
+                <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->last_name)" required autocomplete="family-name" />
+                <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
+            </div>
+        </div>
+
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-input-label for="name" :value="__('Display Name')" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <p class="mt-1 text-xs text-gray-500">This will be displayed in the admin panel</p>
+        </div>
+
+        <div>
+            <x-input-label for="mobile_number" :value="__('Mobile Number')" />
+            <x-text-input id="mobile_number" name="mobile_number" type="tel" class="mt-1 block w-full" :value="old('mobile_number', $user->mobile_number)" autocomplete="tel" />
+            <x-input-error class="mt-2" :messages="$errors->get('mobile_number')" />
         </div>
 
         <div>
