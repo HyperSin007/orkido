@@ -135,6 +135,32 @@
                                     Student Area
                                 </div>
                             </a>
+                            <ul class="ml-4 mt-2 space-y-1">
+                                <li>
+                                    <a href="{{ route('students.index') }}" 
+                                       @click="window.innerWidth < 1024 && (sidebarOpen = false)"
+                                       class="block py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200 {{ request()->routeIs('students.index') ? 'bg-gray-900' : '' }}">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                            </svg>
+                                            Students List
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('students.create') }}" 
+                                       @click="window.innerWidth < 1024 && (sidebarOpen = false)"
+                                       class="block py-2 px-4 rounded hover:bg-blue-700 bg-blue-600 text-white transition-colors duration-200 {{ request()->routeIs('students.create') ? 'bg-blue-800' : '' }}">
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                            </svg>
+                                            Add Student
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -142,6 +168,7 @@
             <!-- Main Content -->
             <main class="flex-1 bg-gray-100 lg:ml-0 transition-all duration-300 ease-in-out pt-16 lg:pt-0">
                 @yield('content')
+                {{ $slot ?? '' }}
             </main>
         </div>
     </div>

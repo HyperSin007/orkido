@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,6 +32,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/universities/{university}', [UniversityController::class, 'destroy'])
         ->middleware('can:view-universities')
         ->name('universities.destroy');
+    
+    // Student routes
+    Route::resource('students', StudentController::class);
 });
 
 Route::middleware('auth')->group(function () {
